@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+                android:id="@+id/sidebar_home"
+                android:icon="@drawable/ic_home"
+                android:title="Home"/>
+        <item
+                android:id="@+id/sidebar_apartment"
+                android:icon="@drawable/ic_people_white"
+                android:title="Apartament"/>
+        <item
+                android:id="@+id/sidebar_debts"
+                android:icon="@drawable/ic_payment"
+                android:title="Lista długów"/>
+        <item
+                android:id="@+id/sidebar_shopping_list"
+                android:icon="@drawable/ic_shopping_basket"
+                android:title="Lista zakupów"/>
+        <item
+                android:id="@+id/sidebar_bills"
+                android:icon="@drawable/ic_bills"
+                android:title="Rachunki"/>
+        <item
+                android:id="@+id/sidebar_cleaning"
+                android:icon="@drawable/ic_cleaning"
+                android:title="Sprzątanie"/>
+    </group>
+
+</menu>
