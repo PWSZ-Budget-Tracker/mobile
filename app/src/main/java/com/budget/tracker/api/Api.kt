@@ -1,23 +1,19 @@
 package com.budget.tracker.api
 
-import com.budget.tracker.models.*
-import okhttp3.ResponseBody
+import com.budget.tracker.requests.LoginRequest
+import com.budget.tracker.requests.RegisterUserRequest
 import retrofit2.Call
 import retrofit2.http.*
 
 interface Api {
 
-    @FormUrlEncoded
-    @POST("/auth/login")
+    @POST("/api/Authentication/Login")
     fun userLogin(
-        @Field("email") email:String,
-        @Field("password") password: String
+        @Body loginRequest : LoginRequest
     ):Call<LoginResponse>
 
-    @FormUrlEncoded
-    @POST("/auth/register")
+    @POST("/api/Authentication/Register")
     fun userRegister(
-        @Field("email") email:String,
-        @Field("password") password: String
+        @Body user : RegisterUserRequest
     ):Call<RegisterResponse>
 }

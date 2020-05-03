@@ -17,34 +17,6 @@ class SharedPrefManager private constructor(private val mCtx: Context){
             return sharedPreferences.getString("token", null)
         }
 
-    val isGroupChoosen: Boolean
-        get() {
-            val sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE)
-            return sharedPreferences.getString("group_id", null) != null
-
-        }
-
-    val groupId: String?
-        get() {
-            val sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE)
-            return sharedPreferences.getString("group_id", null)
-
-        }
-
-    val groupName: String?
-        get() {
-            val sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE)
-            return sharedPreferences.getString("group_name", null)
-
-        }
-
-    val groupMembers: String?
-        get() {
-            val sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE)
-            return sharedPreferences.getString("group_members", null)
-
-        }
-
 
     fun saveToken(token: String) {
         val sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE)

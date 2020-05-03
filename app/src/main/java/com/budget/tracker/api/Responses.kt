@@ -1,7 +1,7 @@
 package com.budget.tracker.api
 
-import com.budget.tracker.models.*
+import com.budget.tracker.dtos.loginPayload
 
-data class LoginResponse(val user: User)
+data class LoginResponse(val payload: loginPayload)
 
-data class RegisterResponse(val user: User)
+data class RegisterResponse(val status: Boolean)

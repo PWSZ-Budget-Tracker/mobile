@@ -28,10 +28,6 @@ class MainActivity : AppCompatActivity(),
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        val headerView = nav_view.getHeaderView(0)
-        val navGroupName = headerView.findViewById<TextView>(R.id.sidebar_group_name)
-        navGroupName.setText(SharedPrefManager.getInstance(applicationContext).groupName)
-
         val toggle = ActionBarDrawerToggle(
             this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
         )

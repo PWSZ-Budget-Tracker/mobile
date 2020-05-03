@@ -14,10 +14,11 @@
             android:layout_above="@+id/linearLayout" android:layout_marginBottom="43dp" android:layout_marginTop="53dp"
             android:layout_alignParentTop="true" android:layout_alignParentStart="true"
             android:layout_marginStart="25dp"/>
+
     <LinearLayout
             android:id="@+id/linearLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="359dp"
+            android:layout_height="171dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
@@ -29,21 +30,31 @@
                 android:id="@+id/registerEditTextEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:autofillHints=""
+                android:backgroundTint="@android:color/background_light"
                 android:drawablePadding="5dp"
                 android:hint="Email"
-                android:inputType="textEmailAddress"
-                android:autofillHints=""
-                android:backgroundTint="@android:color/background_light"/>
+                android:inputType="textEmailAddress" />
 
         <EditText
                 android:id="@+id/registerEditTextPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@android:color/background_light"
                 android:drawablePadding="5dp"
                 android:hint="Hasło"
-                android:inputType="textPassword"
                 android:importantForAutofill="no"
-                android:backgroundTint="@android:color/background_light"/>
+                android:inputType="textPassword" />
+
+        <EditText
+                android:id="@+id/registerEditTextPasswordConfirmation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@android:color/background_light"
+                android:drawablePadding="5dp"
+                android:hint="Powtórz hasło"
+                android:importantForAutofill="no"
+                android:inputType="textPassword" />
 
 
     </LinearLayout>
