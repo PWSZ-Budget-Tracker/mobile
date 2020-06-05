@@ -4,18 +4,37 @@ import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Adapter
+import android.widget.Toast
 import com.budget.tracker.MainActivity
 
 import com.budget.tracker.R
+import com.budget.tracker.adapters.ExpensesAmountRecyclerViewAdapterViewAdapter
+import com.budget.tracker.api.ExpensesResponse
+import com.budget.tracker.api.IncomesResponse
+import com.budget.tracker.api.RetrofitClient
+import com.budget.tracker.models.Expense
+import com.budget.tracker.models.Income
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class HomeFragment : Fragment() {
     private var listener: OnFragmentInteractionListener? = null
+    private lateinit var baseContext: Context
+    private var incomes_eur: Double = 0.0
+    private var incomes_usd: Double = 0.0
+    private var incomes_pln: Double = 0.0
+    private var expenses_eur: Double = 0.0
+    private var expenses_usd: Double = 0.0
+    private var expenses_pln: Double = 0.0
 
 
     override fun onCreateView(
@@ -34,12 +53,76 @@ class HomeFragment : Fragment() {
             (activity as MainActivity).switchFragment(CategoryListFragment.newInstance(1))
         }
 
+
+        getExpenses();
+        getIncomes();
+        view.expenses_eur_value.text = expenses_eur.toString()
+        view.expenses_usd_value.text = expenses_usd.toString()
+        view.expenses_pln_value.text = expenses_pln.toString()
+
+        view.incomes_eur_value.text = incomes_eur.toString()
+        view.incomes_usd_value.text = incomes_usd.toString()
+        view.incomes_pln_value.text = incomes_pln.toString()
+
         return view
     }
 
+    private fun getExpenses() {
+        RetrofitClient(baseContext).instance.getExpenses()
+            .enqueue(object : Callback<ExpensesResponse> {
+                override fun onFailure(call: Call<ExpensesResponse>, t: Throwable) {
+                    Toast.makeText(baseContext, t.message, Toast.LENGTH_LONG).show()
+                }
+
+                override fun onResponse(call: Call<ExpensesResponse>, response: Response<ExpensesResponse>) {
+                    if (response.code() == 200) {
+                        val expensesCollection: Array<Expense> = response.body()!!.payload
+
+                        for (expense: Expense in expensesCollection) {
+                            if (expense.currency.shortName.equals("EUR", true)) {
+                                expenses_eur += expense.amount
+                            }else if(expense.currency.shortName.equals("USD", true))
+                            {
+                                expenses_usd += expense.amount
+                            }else{
+                                expenses_pln += expense.amount
+                            }
+                        }
+                        expenses_eur.
+                    }
+                }
+            })
+    }
+
+  private  fun getIncomes() {
+        RetrofitClient(baseContext).instance.getIncomes()
+            .enqueue(object : Callback<IncomesResponse> {
+                override fun onFailure(call: Call<IncomesResponse>, t: Throwable) {
+                    Toast.makeText(baseContext, t.message, Toast.LENGTH_LONG).show()
+                }
+
+                override fun onResponse(call: Call<IncomesResponse>, response: Response<IncomesResponse>) {
+                    if (response.code() == 200) {
+                        val incomesCollection: Array<Income> = response.body()!!.payload
+
+                        for (income: Income in incomesCollection) {
+                            if (income.currency.shortName.equals("EUR", true)) {
+                                incomes_eur += income.amount
+                            }else if(income.currency.shortName.equals("USD", true))
+                            {
+                                incomes_usd += income.amount
+                            }else{
+                                incomes_pln += income.amount
+                            }
+                        }
+                    }
+                }
+            })
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        baseContext = context
         if (context is OnFragmentInteractionListener) {
             listener = context
         } else {
