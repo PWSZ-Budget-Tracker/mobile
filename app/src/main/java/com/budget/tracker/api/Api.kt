@@ -31,12 +31,12 @@ interface Api {
         @Path(value = "expenseId", encoded = true) expenseId: String?
     ):Call<CommonResponse>
 
-    @POST("/api/Incomes/Add")
+    @POST("/api/Income/Add")
     fun addNewIncome(
         @Body addIncomesRequest : AddIncomeRequest
     ):Call<CommonResponse>
 
-    @DELETE("/api/Incomes/Delete/{incomeId}")
+    @DELETE("/api/Income/Delete/{incomeId}")
     fun removeIncome(
         @Path(value = "incomeId", encoded = true) incomeId: String?
     ):Call<CommonResponse>
@@ -48,7 +48,7 @@ interface Api {
     @GET("/api/Expenses/GetAll?date=2020-06-03")
     fun getExpenses():Call<ExpensesResponse>
 
-    @GET("/api/Incomes/GetAll?date=2020-06-03")
+    @GET("/api/Income/GetAll?date=2020-06-03")
     fun getIncomes():Call<IncomesResponse>
 
 }

@@ -51,7 +51,7 @@ class IncomesFragment : Fragment() {
     ): View? {
         val view: View = inflater.inflate(R.layout.fragment_incomes, container, false)
 
-        activity!!.nav_view.setCheckedItem(R.id.sidebar_expenses)
+        activity!!.nav_view.setCheckedItem(R.id.sidebar_incomes)
 
         view.fab.setOnClickListener { view ->
             showDialog()
