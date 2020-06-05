@@ -13,7 +13,6 @@ import android.widget.Toast
 import com.budget.tracker.MainActivity
 
 import com.budget.tracker.R
-import com.budget.tracker.adapters.ExpensesAmountRecyclerViewAdapterViewAdapter
 import com.budget.tracker.api.ExpensesResponse
 import com.budget.tracker.api.IncomesResponse
 import com.budget.tracker.api.RetrofitClient
@@ -56,13 +55,6 @@ class HomeFragment : Fragment() {
 
         getExpenses();
         getIncomes();
-        view.expenses_eur_value.text = expenses_eur.toString()
-        view.expenses_usd_value.text = expenses_usd.toString()
-        view.expenses_pln_value.text = expenses_pln.toString()
-
-        view.incomes_eur_value.text = incomes_eur.toString()
-        view.incomes_usd_value.text = incomes_usd.toString()
-        view.incomes_pln_value.text = incomes_pln.toString()
 
         return view
     }
@@ -81,6 +73,7 @@ class HomeFragment : Fragment() {
                         for (expense: Expense in expensesCollection) {
                             if (expense.currency.shortName.equals("EUR", true)) {
                                 expenses_eur += expense.amount
+
                             }else if(expense.currency.shortName.equals("USD", true))
                             {
                                 expenses_usd += expense.amount
@@ -88,7 +81,9 @@ class HomeFragment : Fragment() {
                                 expenses_pln += expense.amount
                             }
                         }
-                        expenses_eur.
+                        view?.expenses_eur_value?.text = expenses_eur.toString()
+                        view?.expenses_usd_value?.text = expenses_usd.toString()
+                        view?.expenses_pln_value?.text = expenses_pln.toString()
                     }
                 }
             })
@@ -115,6 +110,9 @@ class HomeFragment : Fragment() {
                                 incomes_pln += income.amount
                             }
                         }
+                        view?.incomes_eur_value?.text = incomes_eur.toString()
+                        view?.incomes_usd_value?.text = incomes_usd.toString()
+                        view?.incomes_pln_value?.text = incomes_pln.toString()
                     }
                 }
             })
