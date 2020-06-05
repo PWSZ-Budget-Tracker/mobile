@@ -20,11 +20,14 @@ class MainActivity : AppCompatActivity(),
     NavigationView.OnNavigationItemSelectedListener,
     HomeFragment.OnFragmentInteractionListener,
     ExpensesFragment.OnFragmentInteractionListener,
+    IncomesFragment.OnFragmentInteractionListener,
     CategoryListFragment.OnFragmentInteractionListener
 {
     lateinit var homeFragment: HomeFragment
     lateinit var expensesFragment: ExpensesFragment
+    lateinit var incomesFragment: IncomesFragment
     lateinit var expencesCategoriesFragment: CategoryListFragment
+    lateinit var incomesCategoriesFragment: CategoryListFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,9 +87,13 @@ class MainActivity : AppCompatActivity(),
                 homeFragment = HomeFragment.newInstance()
                 switchFragment(homeFragment)
             }
-            R.id.sidebar_expences -> {
-                expencesCategoriesFragment = CategoryListFragment.newInstance()
+            R.id.sidebar_expenses -> {
+                expencesCategoriesFragment = CategoryListFragment.newInstance(0)
                 switchFragment(expencesCategoriesFragment)
+            }
+            R.id.sidebar_incomes -> {
+                incomesCategoriesFragment = CategoryListFragment.newInstance(1)
+                switchFragment(incomesCategoriesFragment)
             }
         }
 

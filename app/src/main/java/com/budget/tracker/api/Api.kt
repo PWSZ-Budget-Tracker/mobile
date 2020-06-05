@@ -31,10 +31,24 @@ interface Api {
         @Path(value = "expenseId", encoded = true) expenseId: String?
     ):Call<CommonResponse>
 
+    @POST("/api/Incomes/Add")
+    fun addNewIncome(
+        @Body addIncomesRequest : AddIncomeRequest
+    ):Call<CommonResponse>
+
+    @DELETE("/api/Incomes/Delete/{incomeId}")
+    fun removeIncome(
+        @Path(value = "incomeId", encoded = true) incomeId: String?
+    ):Call<CommonResponse>
+
     @GET("/api/Category/GetAll")
-    fun getCategories():Call<CategoryResponse>
+    fun getCategories(
+        @Query("type") categoryTypeId: Int?):Call<CategoryResponse>
 
     @GET("/api/Expenses/GetAll?date=2020-06-03")
     fun getExpenses():Call<ExpensesResponse>
+
+    @GET("/api/Incomes/GetAll?date=2020-06-03")
+    fun getIncomes():Call<IncomesResponse>
 
 }

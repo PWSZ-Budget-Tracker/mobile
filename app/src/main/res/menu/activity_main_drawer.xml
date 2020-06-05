@@ -9,9 +9,13 @@
                 android:icon="@drawable/ic_home"
                 android:title="Home"/>
         <item
-                android:id="@+id/sidebar_expences"
+                android:id="@+id/sidebar_expenses"
                 android:icon="@drawable/ic_payment"
                 android:title="Wydatki" />
+        <item
+                android:id="@+id/sidebar_incomes"
+                android:icon="@drawable/ic_payment"
+                android:title="Przychody" />
     </group>
 
 </menu>

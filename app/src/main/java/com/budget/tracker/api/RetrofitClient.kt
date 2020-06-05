@@ -10,9 +10,6 @@ class RetrofitClient constructor(context: Context) {
 
     private val TOKEN = SharedPrefManager.getInstance(context).token
     private val BASE_URL = "https://pwsz-budget-tracker.azurewebsites.net"
-//    private val BASE_URL = "http://207.154.242.233"
-
-
 
     private val okHttpClient = OkHttpClient.Builder()
         .addInterceptor { chain ->
@@ -35,5 +32,4 @@ class RetrofitClient constructor(context: Context) {
 
         retrofit.create(Api::class.java)
     }
-
 }
