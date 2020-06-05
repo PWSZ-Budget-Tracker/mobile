@@ -9,25 +9,9 @@
                 android:icon="@drawable/ic_home"
                 android:title="Home"/>
         <item
-                android:id="@+id/sidebar_apartment"
-                android:icon="@drawable/ic_people_white"
-                android:title="Apartament"/>
-        <item
-                android:id="@+id/sidebar_debts"
+                android:id="@+id/sidebar_expences"
                 android:icon="@drawable/ic_payment"
-                android:title="Lista długów"/>
-        <item
-                android:id="@+id/sidebar_shopping_list"
-                android:icon="@drawable/ic_shopping_basket"
-                android:title="Lista zakupów"/>
-        <item
-                android:id="@+id/sidebar_bills"
-                android:icon="@drawable/ic_bills"
-                android:title="Rachunki"/>
-        <item
-                android:id="@+id/sidebar_cleaning"
-                android:icon="@drawable/ic_cleaning"
-                android:title="Sprzątanie"/>
+                android:title="Wydatki" />
     </group>
 
 </menu>

@@ -11,7 +11,6 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.TextView
 import com.budget.tracker.fragments.*
 import com.budget.tracker.storage.SharedPrefManager
 import kotlinx.android.synthetic.main.activity_main.*
@@ -19,18 +18,18 @@ import kotlinx.android.synthetic.main.app_bar_main.*
 
 class MainActivity : AppCompatActivity(),
     NavigationView.OnNavigationItemSelectedListener,
-    HomeFragment.OnFragmentInteractionListener
+    HomeFragment.OnFragmentInteractionListener,
+    ExpensesFragment.OnFragmentInteractionListener,
+    CategoryListFragment.OnFragmentInteractionListener
 {
     lateinit var homeFragment: HomeFragment
+    lateinit var expensesFragment: ExpensesFragment
+    lateinit var expencesCategoriesFragment: CategoryListFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-
-        val headerView = nav_view.getHeaderView(0)
-        val navGroupName = headerView.findViewById<TextView>(R.id.sidebar_group_name)
-        navGroupName.setText(SharedPrefManager.getInstance(applicationContext).groupName)
 
         val toggle = ActionBarDrawerToggle(
             this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
@@ -84,6 +83,10 @@ class MainActivity : AppCompatActivity(),
             R.id.sidebar_home -> {
                 homeFragment = HomeFragment.newInstance()
                 switchFragment(homeFragment)
+            }
+            R.id.sidebar_expences -> {
+                expencesCategoriesFragment = CategoryListFragment.newInstance()
+                switchFragment(expencesCategoriesFragment)
             }
         }
 

@@ -26,6 +26,10 @@ class HomeFragment : Fragment() {
 
         activity!!.nav_view.setCheckedItem(R.id.sidebar_home)
 
+        view.homeExpensesCard.setOnClickListener {
+            (activity as MainActivity).switchFragment(CategoryListFragment.newInstance())
+        }
+
         return view
     }
 

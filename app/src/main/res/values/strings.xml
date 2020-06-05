@@ -15,6 +15,7 @@
     <string name="password_required">Proszę podać hasło</string>
     <string name="invalid_credentials">Nieprawidłowe dane logowania</string>
     <string name="invalid_register_data">Nieprawidłowe dane rejestracji</string>
+    <string name="successful_register_process">Rejestracja przebiegła pomyślnie</string>
     <string name="dont_have_account">Nie masz konta? Zarejestruj się!</string>
     <string name="copied_to_clipboard">Skopiowano do schowka</string>
 </resources>

@@ -12,6 +12,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import android.support.v4.content.ContextCompat
+import com.budget.tracker.requests.LoginRequest
 
 
 class LoginActivity : AppCompatActivity() {
@@ -26,12 +27,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        if(SharedPrefManager.getInstance(this).isGroupChoosen){
-            val intent = Intent(applicationContext, MainActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-
-            startActivity(intent)
-        } else if(SharedPrefManager.getInstance(this).isLoggedIn){
+         if(SharedPrefManager.getInstance(this).isLoggedIn){
             val intent = Intent(applicationContext, MainActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
 
@@ -57,17 +53,15 @@ class LoginActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            RetrofitClient(applicationContext).instance.userLogin(email, password)
+            RetrofitClient(applicationContext).instance.userLogin(LoginRequest(email, password))
                 .enqueue(object : Callback<LoginResponse> {
                     override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                         Toast.makeText(applicationContext, t.message, Toast.LENGTH_LONG).show()
                     }
 
                     override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
-                        print(response.code())
                         if (response.code() == 200) {
-
-                            SharedPrefManager.getInstance(applicationContext).saveToken(response.body()?.user?.token!!)
+                            SharedPrefManager.getInstance(applicationContext).saveToken(response.body()?.payload?.accessToken!!)
 
                             val intent = Intent(applicationContext, MainActivity::class.java)
                             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
