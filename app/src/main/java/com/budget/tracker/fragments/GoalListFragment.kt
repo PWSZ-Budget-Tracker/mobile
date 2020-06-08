@@ -22,11 +22,16 @@ import com.budget.tracker.models.Expense
 import com.budget.tracker.models.Goal
 import com.budget.tracker.requests.*
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.add_to_goal_dialog.view.*
+import kotlinx.android.synthetic.main.edit_goal_dialog.view.*
 import kotlinx.android.synthetic.main.expense_item.view.*
 import kotlinx.android.synthetic.main.fragment_expences.view.*
 import kotlinx.android.synthetic.main.goal_item.view.*
 import kotlinx.android.synthetic.main.new_expense_dialog.view.*
 import kotlinx.android.synthetic.main.new_goal_dialog.view.*
+import kotlinx.android.synthetic.main.new_goal_dialog.view.dialogCancelButton
+import kotlinx.android.synthetic.main.new_goal_dialog.view.goalDialogValue
+import kotlinx.android.synthetic.main.remove_from_goal_dialog.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -64,7 +69,11 @@ class GoalListFragment : Fragment() {
         adapterGoals = GoalsRecyclerViewAdapter(
             baseContext,
             goalList,
-            onClickListener = { goal -> removeGoal(goal) })
+            onRemoveListener = { goalId -> removeGoal(goalId) },
+            onAddToGoalListener = { goalId -> showAddToGoalDialog(goalId) },
+            onRemoveFromGoalListener = { goalId -> showRemoveFromGoalDialog(goalId) },
+            onEditListener = { goal -> showEditDialog(goal) }
+        )
         recyclerView.layoutManager = LinearLayoutManager(baseContext, LinearLayoutManager.VERTICAL,false)
         recyclerView.adapter = adapterGoals
 
@@ -106,9 +115,9 @@ class GoalListFragment : Fragment() {
 
         newGoalDialogView.dialogAddGoal.setOnClickListener {
 
-            val goalValue = newGoalDialogView.goalDialog.text.toString()
+            val goalValue = newGoalDialogView.goalDialogValue.text.toString()
             val goalName = newGoalDialogView.goalDialogName.text.toString()
-            val goalCurrency = newGoalDialogView.goalDialogCurrency.text.toString()
+            val goalCurrency = newGoalDialogView.currencyGoalSpinner.selectedItemPosition+1
 
             if (goalName.isEmpty()) {
                 newGoalDialogView.goal_name.requestFocus()
@@ -117,11 +126,6 @@ class GoalListFragment : Fragment() {
 
             if (goalValue.isEmpty()) {
                 newGoalDialogView.goal_amount.requestFocus()
-                return@setOnClickListener
-            }
-
-            if (goalCurrency.isEmpty()) {
-                newGoalDialogView.goal_currency.requestFocus()
                 return@setOnClickListener
             }
 
@@ -134,14 +138,146 @@ class GoalListFragment : Fragment() {
         }
     }
 
-    fun addNewGoal(name: String, value: String, currency: String) {
-        var currencyCode = 1
+    fun showEditDialog(goal: Goal) {
+        val editGoalDialogView = LayoutInflater.from(baseContext).inflate(R.layout.edit_goal_dialog, null)
 
-        if(currency.equals("USD", true)) {
-            currencyCode = 2
+        val mBuilder = AlertDialog.Builder(baseContext)
+            .setView(editGoalDialogView)
+            .setTitle("Edytuj cel")
+
+        val  mAlertDialog = mBuilder.show()
+
+        editGoalDialogView.dialogGoalEditButton.setOnClickListener {
+
+            val goalNewValue = editGoalDialogView.goalNewValue.text.toString()
+            val goalNewName = editGoalDialogView.goalNewName.text.toString()
+
+            if (goalNewValue.isEmpty()) {
+                editGoalDialogView.goalNewValue.requestFocus()
+                return@setOnClickListener
+            }
+
+            if (goalNewName.isEmpty()) {
+                editGoalDialogView.goalNewName.requestFocus()
+                return@setOnClickListener
+            }
+
+            mAlertDialog.dismiss()
+            editGoal(goal.id, goalNewValue, goalNewName)
         }
 
-        RetrofitClient(baseContext).instance.addNewGoal(AddGoalRequest(name, value.toDouble(), currencyCode))
+        editGoalDialogView.dialogGoalCancelButton.setOnClickListener {
+            mAlertDialog.dismiss()
+        }
+    }
+
+    fun showAddToGoalDialog(goalId: Int) {
+        val addToGoalDialogView = LayoutInflater.from(baseContext).inflate(R.layout.add_to_goal_dialog, null)
+
+        val mBuilder = AlertDialog.Builder(baseContext)
+            .setView(addToGoalDialogView)
+            .setTitle("Dodaj do celu")
+
+        val  mAlertDialog = mBuilder.show()
+
+        addToGoalDialogView.dialogAddToGoal.setOnClickListener {
+
+            val addToGoalValue = addToGoalDialogView.goalDialogValue.text.toString()
+
+            if (addToGoalValue.isEmpty()) {
+                addToGoalDialogView.goalDialogValue.requestFocus()
+                return@setOnClickListener
+            }
+
+            mAlertDialog.dismiss()
+            addToGoal(goalId, addToGoalValue)
+        }
+
+        addToGoalDialogView.dialogCancelButton.setOnClickListener {
+            mAlertDialog.dismiss()
+        }
+    }
+
+    fun showRemoveFromGoalDialog(goalId: Int) {
+        val removeFromGoalDialogView = LayoutInflater.from(baseContext).inflate(R.layout.remove_from_goal_dialog, null)
+
+        val mBuilder = AlertDialog.Builder(baseContext)
+            .setView(removeFromGoalDialogView)
+            .setTitle("Zabierz z celu")
+
+        val  mAlertDialog = mBuilder.show()
+
+        removeFromGoalDialogView.dialogRemoveFromGoal.setOnClickListener {
+
+            val goalRemovedValue = removeFromGoalDialogView.goalDialogValue.text.toString()
+
+            if (goalRemovedValue.isEmpty()) {
+                removeFromGoalDialogView.goalDialogValue.requestFocus()
+                return@setOnClickListener
+            }
+
+            mAlertDialog.dismiss()
+            removeFromGoal(goalId, goalRemovedValue)
+        }
+
+        removeFromGoalDialogView.dialogCancelButton.setOnClickListener {
+            mAlertDialog.dismiss()
+        }
+    }
+
+    fun editGoal(expenseId: Int, newValue: String, newName: String) {
+        RetrofitClient(baseContext).instance.editGoal(EditGoalRequest(expenseId, newName, newValue.toFloat()))
+            .enqueue(object : Callback<CommonResponse> {
+                override fun onFailure(call: Call<CommonResponse>, t: Throwable) {
+                    Toast.makeText(baseContext, t.message, Toast.LENGTH_LONG).show()
+                }
+
+                override fun onResponse(call: Call<CommonResponse>, response: Response<CommonResponse>) {
+                    if (response.code() == 200) {
+                        Toast.makeText(baseContext, "Zaktualizowano cel", Toast.LENGTH_LONG).show()
+                        goalList.clear()
+                        getGoals()
+                    }
+                }
+            })
+    }
+
+    fun addToGoal(goalId: Int, value: String) {
+        RetrofitClient(baseContext).instance.addToGoal(AddToGoalRequest(goalId, value.toFloat()))
+            .enqueue(object : Callback<CommonResponse> {
+                override fun onFailure(call: Call<CommonResponse>, t: Throwable) {
+                    Toast.makeText(baseContext, t.message, Toast.LENGTH_LONG).show()
+                }
+
+                override fun onResponse(call: Call<CommonResponse>, response: Response<CommonResponse>) {
+                    if (response.code() == 200) {
+                        Toast.makeText(baseContext, "Dodano do celu", Toast.LENGTH_LONG).show()
+                        goalList.clear()
+                        getGoals()
+                    }
+                }
+            })
+    }
+
+    fun removeFromGoal(goalId: Int, value: String) {
+        RetrofitClient(baseContext).instance.removeFromGoal(RemoveFromGoalRequest(goalId, value.toFloat()))
+            .enqueue(object : Callback<CommonResponse> {
+                override fun onFailure(call: Call<CommonResponse>, t: Throwable) {
+                    Toast.makeText(baseContext, t.message, Toast.LENGTH_LONG).show()
+                }
+
+                override fun onResponse(call: Call<CommonResponse>, response: Response<CommonResponse>) {
+                    if (response.code() == 200) {
+                        Toast.makeText(baseContext, "Odjęto od celu", Toast.LENGTH_LONG).show()
+                        goalList.clear()
+                        getGoals()
+                    }
+                }
+            })
+    }
+
+    fun addNewGoal(name: String, value: String, currencyId: Int) {
+        RetrofitClient(baseContext).instance.addNewGoal(AddGoalRequest(name, value.toDouble(), currencyId))
             .enqueue(object : Callback<CommonResponse> {
                 override fun onFailure(call: Call<CommonResponse>, t: Throwable) {
                     Toast.makeText(baseContext, t.message, Toast.LENGTH_LONG).show()
@@ -157,8 +293,8 @@ class GoalListFragment : Fragment() {
             })
     }
 
-    fun removeGoal(goal: Goal) {
-        RetrofitClient(baseContext).instance.removeGoal(DeleteGoalRequest( goal.id))
+    fun removeGoal(goalId: Int) {
+        RetrofitClient(baseContext).instance.removeGoal(DeleteGoalRequest( goalId))
             .enqueue(object : Callback<CommonResponse> {
                 override fun onFailure(call: Call<CommonResponse>, t: Throwable) {
                     Toast.makeText(baseContext, t.message, Toast.LENGTH_LONG).show()

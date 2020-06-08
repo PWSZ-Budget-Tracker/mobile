@@ -14,7 +14,7 @@ import com.budget.tracker.models.Expense
 import com.budget.tracker.models.Income
 import java.util.*
 
-class IncomesRecyclerViewAdapter(private var context: Context, private var dataList: ArrayList<Income>, private val onClickListener: (Income) -> Unit): RecyclerView.Adapter<IncomesRecyclerViewAdapter.ViewHolder>() {
+class IncomesRecyclerViewAdapter(private var context: Context, private var dataList: ArrayList<Income>, private val onClickListener: (Income) -> Unit, private val onEditListener: (Int) -> Unit): RecyclerView.Adapter<IncomesRecyclerViewAdapter.ViewHolder>() {
     override fun getItemCount(): Int {
         return dataList.size
     }
@@ -39,6 +39,9 @@ class IncomesRecyclerViewAdapter(private var context: Context, private var dataL
         holder.removeIncome.setOnClickListener { view ->
             onClickListener.invoke(dataList[position])
         }
+        holder.editIncome.setOnClickListener{ view ->
+            onEditListener.invoke(dataList[position].id)
+        }
     }
 
     class ViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
@@ -46,5 +49,6 @@ class IncomesRecyclerViewAdapter(private var context: Context, private var dataL
         var currency: TextView = itemView!!.findViewById(R.id.income_currency)
         var date: TextView = itemView!!.findViewById(R.id.income_date)
         var removeIncome: Button = itemView!!.findViewById(R.id.remove_income)
+        var editIncome: Button = itemView!!.findViewById(R.id.edit_income)
     }
 }

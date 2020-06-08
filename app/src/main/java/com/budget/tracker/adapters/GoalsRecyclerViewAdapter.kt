@@ -15,7 +15,11 @@ import com.budget.tracker.models.Expense
 import com.budget.tracker.models.Goal
 import java.util.*
 
-class GoalsRecyclerViewAdapter(private var context: Context, private var dataList: ArrayList<Goal>, private val onClickListener: (Goal) -> Unit): RecyclerView.Adapter<GoalsRecyclerViewAdapter.ViewHolder>() {
+class GoalsRecyclerViewAdapter(private var context: Context, private var dataList: ArrayList<Goal>,
+                               private val onRemoveListener: (Int) -> Unit,
+                               private val onAddToGoalListener: (Int) -> Unit,
+                               private val onRemoveFromGoalListener: (Int) -> Unit,
+                               private val onEditListener: (Goal) -> Unit): RecyclerView.Adapter<GoalsRecyclerViewAdapter.ViewHolder>() {
     override fun getItemCount(): Int {
         return dataList.size
     }
@@ -40,17 +44,17 @@ class GoalsRecyclerViewAdapter(private var context: Context, private var dataLis
         holder.progress!!.progress = ((dataList[position].amount * 100)/dataList[position].goalAmount).toInt()
 
         holder.removeGoal.setOnClickListener { view ->
-            onClickListener.invoke(dataList[position])
+            onRemoveListener.invoke(dataList[position].id)
         }
-//        holder.addToGoal.setOnClickListener { view ->
-//            onClickListener.invoke(dataList[position])
-//        }
-//        holder.removeFromGoal.setOnClickListener { view ->
-//            onClickListener.invoke(dataList[position])
-//        }
-//        holder.editGoal.setOnClickListener { view ->
-//            onClickListener.invoke(dataList[position])
-//        }
+        holder.addToGoal.setOnClickListener { view ->
+            onAddToGoalListener.invoke(dataList[position].id)
+        }
+        holder.removeFromGoal.setOnClickListener { view ->
+            onRemoveFromGoalListener.invoke(dataList[position].id)
+        }
+        holder.editGoal.setOnClickListener { view ->
+            onEditListener.invoke(dataList[position])
+        }
 
     }
 
@@ -60,9 +64,9 @@ class GoalsRecyclerViewAdapter(private var context: Context, private var dataLis
         var totalAmount: TextView = itemView!!.findViewById(R.id.total_goal_amount)
         var currency: TextView = itemView!!.findViewById(R.id.goal_currency)
         var progress: ProgressBar = itemView!!.findViewById(R.id.goal_progress)
-//        var addToGoal: Button = itemView!!.findViewById(R.id.add_to_goal)
-//        var removeFromGoal: Button = itemView!!.findViewById(R.id.remove_from_goal)
-//        var editGoal: Button = itemView!!.findViewById(R.id.edit_goal)
+        var addToGoal: Button = itemView!!.findViewById(R.id.add_to_goal)
+        var removeFromGoal: Button = itemView!!.findViewById(R.id.remove_from_goal)
+        var editGoal: Button = itemView!!.findViewById(R.id.edit_goal)
         var removeGoal: Button = itemView!!.findViewById(R.id.remove_goal)
     }
 }

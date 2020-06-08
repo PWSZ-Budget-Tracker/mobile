@@ -6,40 +6,25 @@
         android:orientation="vertical"
         android:padding="10dp">
 
-    <LinearLayout
+    <EditText
+            android:id="@+id/expenseNewValue"
+            android:hint="Nowa kwota wydatku"
             android:layout_width="match_parent"
-            android:layout_height="71dp"
-            android:orientation="horizontal"
-            android:padding="10dp">
-
-        <EditText
-                android:id="@+id/incomeValue"
-                android:layout_width="215dp"
-                android:layout_height="wrap_content"
-                android:hint="Kwota"
-                android:inputType="text" />
-
-        <Spinner
-                android:id="@+id/currencySpinner"
-                android:layout_width="104dp"
-                android:layout_height="wrap_content"
-                android:entries="@array/currency_array" />
-    </LinearLayout>
+            android:layout_height="wrap_content" android:inputType="text"/>
 
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center">
-
         <Button
-                android:id="@+id/dialogIncomeAddButton"
+                android:id="@+id/dialogExpenseEditButton"
+                android:text="Edytuj"
                 style="@android:style/Widget.Material.Light.Button"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Dodaj" />
+                android:layout_height="wrap_content"/>
         <Button
-                android:id="@+id/dialogIncomeCancelButton"
+                android:id="@+id/dialogExpenseCancelButton"
                 android:text="Anuluj"
                 style="@android:style/Widget.Material.Light.Button"
                 android:layout_width="wrap_content"

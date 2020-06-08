@@ -38,6 +38,25 @@ interface Api {
         @Body editExpenseRequest : EditExpenseRequest
     ):Call<CommonResponse>
 
+    @PUT("/api/Income/Edit")
+    fun editIncome(
+        @Body editIncomeRequest : EditIncomeRequest
+    ):Call<CommonResponse>
+
+    @PUT("/api/Goal/Edit")
+    fun editGoal(
+        @Body editGoalRequest : EditGoalRequest
+    ):Call<CommonResponse>
+
+    @PUT("/api/Goal/AddAmount")
+    fun addToGoal(
+        @Body addToGoalRequest : AddToGoalRequest
+    ):Call<CommonResponse>
+
+    @HTTP(method = "DELETE", path = "/api/Goal/DeleteAmount", hasBody = true)
+    fun removeFromGoal
+         (@Body deleteFromGoalRequest: RemoveFromGoalRequest): Call<CommonResponse>
+
     @HTTP(method = "DELETE", path = "/api/Expenses/Delete", hasBody = true)
     fun removeExpense
         (@Body deleteExpenseRequest: DeleteExpenseRequest): Call<CommonResponse>

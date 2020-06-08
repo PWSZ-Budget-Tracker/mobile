@@ -18,10 +18,15 @@ import com.budget.tracker.api.IncomesResponse
 import com.budget.tracker.api.RetrofitClient
 import com.budget.tracker.models.Income
 import com.budget.tracker.requests.AddIncomeRequest
+import com.budget.tracker.requests.EditIncomeRequest
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.edit_expense_dialog.view.*
+import kotlinx.android.synthetic.main.edit_income_dialog.view.*
 import kotlinx.android.synthetic.main.fragment_expences.view.*
 import kotlinx.android.synthetic.main.new_expense_dialog.view.*
+import kotlinx.android.synthetic.main.new_expense_dialog.view.dialogExpenseCancelButton
 import kotlinx.android.synthetic.main.new_income_dialog.view.*
+import kotlinx.android.synthetic.main.new_income_dialog.view.dialogIncomeCancelButton
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -66,7 +71,8 @@ class IncomesFragment : Fragment() {
         adapterIncomes = IncomesRecyclerViewAdapter(
             baseContext,
             dataList,
-            onClickListener = { income -> removeIncome(income) })
+            onClickListener = { income -> removeIncome(income) },
+            onEditListener = { incomeId -> showEditDialog(incomeId)})
         recyclerView.layoutManager = LinearLayoutManager(baseContext, LinearLayoutManager.VERTICAL,false)
         recyclerView.adapter = adapterIncomes
 
@@ -111,16 +117,11 @@ class IncomesFragment : Fragment() {
 
         newIncomeDialogView.dialogIncomeAddButton.setOnClickListener {
 
-            val incomeValue = newIncomeDialogView.IncomeValue.text.toString()
-            val incomeCurrency = newIncomeDialogView.IncomeCurrency.text.toString()
+            val incomeValue = newIncomeDialogView.incomeValue.text.toString()
+            val incomeCurrency = newIncomeDialogView.currencySpinner.selectedItemPosition+1
 
             if (incomeValue.isEmpty()) {
-                newIncomeDialogView.IncomeValue.requestFocus()
-                return@setOnClickListener
-            }
-
-            if (incomeCurrency.isEmpty()) {
-                newIncomeDialogView.IncomeCurrency.requestFocus()
+                newIncomeDialogView.incomeValue.requestFocus()
                 return@setOnClickListener
             }
 
@@ -133,14 +134,35 @@ class IncomesFragment : Fragment() {
         }
     }
 
-    fun addNewIncome(value: String, currency: String) {
-        var currencyCode = 1
+    fun showEditDialog(incomeId: Int) {
+        val editIncomeDialogView = LayoutInflater.from(baseContext).inflate(R.layout.edit_income_dialog, null)
 
-        if(currency.equals("USD", true)) {
-            currencyCode = 2
+        val mBuilder = AlertDialog.Builder(baseContext)
+            .setView(editIncomeDialogView)
+            .setTitle("Edytuj przychód")
+
+        val  mAlertDialog = mBuilder.show()
+
+        editIncomeDialogView.dialogIncomeEditButton.setOnClickListener {
+
+            val incomeNewValue = editIncomeDialogView.incomeNewValue.text.toString()
+
+            if (incomeNewValue.isEmpty()) {
+                editIncomeDialogView.incomeNewValue.requestFocus()
+                return@setOnClickListener
+            }
+
+            mAlertDialog.dismiss()
+            editIncome(incomeId, incomeNewValue)
         }
 
-        RetrofitClient(baseContext).instance.addNewIncome(AddIncomeRequest(categoryId!!.toInt(), value.toDouble(), currencyCode))
+        editIncomeDialogView.dialogIncomeCancelButton.setOnClickListener {
+            mAlertDialog.dismiss()
+        }
+    }
+
+    fun addNewIncome(value: String, currencyId: Int) {
+        RetrofitClient(baseContext).instance.addNewIncome(AddIncomeRequest(categoryId!!.toInt(), value.toDouble(), currencyId))
             .enqueue(object : Callback<CommonResponse> {
                 override fun onFailure(call: Call<CommonResponse>, t: Throwable) {
                     Toast.makeText(baseContext, t.message, Toast.LENGTH_LONG).show()
@@ -149,6 +171,23 @@ class IncomesFragment : Fragment() {
                 override fun onResponse(call: Call<CommonResponse>, response: Response<CommonResponse>) {
                     if (response.code() == 200) {
                         Toast.makeText(baseContext, "Dodano przychód", Toast.LENGTH_LONG).show()
+                        dataList.clear()
+                        getIncomes()
+                    }
+                }
+            })
+    }
+
+    fun editIncome(incomeId: Int, value: String) {
+        RetrofitClient(baseContext).instance.editIncome(EditIncomeRequest(incomeId, value.toFloat()))
+            .enqueue(object : Callback<CommonResponse> {
+                override fun onFailure(call: Call<CommonResponse>, t: Throwable) {
+                    Toast.makeText(baseContext, t.message, Toast.LENGTH_LONG).show()
+                }
+
+                override fun onResponse(call: Call<CommonResponse>, response: Response<CommonResponse>) {
+                    if (response.code() == 200) {
+                        Toast.makeText(baseContext, "Zaktualizowano przychód", Toast.LENGTH_LONG).show()
                         dataList.clear()
                         getIncomes()
                     }

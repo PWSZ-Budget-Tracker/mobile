@@ -7,43 +7,29 @@
         android:padding="10dp">
 
     <EditText
-            android:id="@+id/goalDialogName"
-            android:hint="Nazwa celu"
+            android:id="@+id/goalNewName"
+            android:hint="Nowa nazwa celu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" android:inputType="text"/>
-    <LinearLayout
+    <EditText
+            android:id="@+id/goalNewValue"
+            android:hint="Nowa kwota celu"
             android:layout_width="match_parent"
-            android:layout_height="71dp"
-            android:orientation="horizontal"
-            android:padding="10dp">
+            android:layout_height="wrap_content" android:inputType="text"/>
 
-        <EditText
-                android:id="@+id/goalDialogValue"
-                android:layout_width="215dp"
-                android:layout_height="wrap_content"
-                android:hint="Kwota"
-                android:inputType="text" />
-
-        <Spinner
-                android:id="@+id/currencyGoalSpinner"
-                android:layout_width="104dp"
-                android:layout_height="wrap_content"
-                android:entries="@array/currency_array" />
-    </LinearLayout>
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center">
         <Button
-                android:id="@+id/dialogAddGoal"
-                android:text="Dodaj"
+                android:id="@+id/dialogGoalEditButton"
+                android:text="Edytuj"
                 style="@android:style/Widget.Material.Light.Button"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:backgroundTint="@color/theme_green"
-                android:textColor="@color/theme_light"/>
+                android:layout_height="wrap_content"/>
         <Button
-                android:id="@+id/dialogCancelButton"
+                android:id="@+id/dialogGoalCancelButton"
                 android:text="Anuluj"
                 style="@android:style/Widget.Material.Light.Button"
                 android:layout_width="wrap_content"

@@ -22,14 +22,11 @@ class MainActivity : AppCompatActivity(),
     ExpensesFragment.OnFragmentInteractionListener,
     IncomesFragment.OnFragmentInteractionListener,
     CategoryListFragment.OnFragmentInteractionListener,
-    GoalListFragment.OnFragmentInteractionListener
-{
-    lateinit var homeFragment: HomeFragment
-    lateinit var expensesFragment: ExpensesFragment
-    lateinit var incomesFragment: IncomesFragment
-    lateinit var goalListFragment: GoalListFragment
-    lateinit var expencesCategoriesFragment: CategoryListFragment
-    lateinit var incomesCategoriesFragment: CategoryListFragment
+    GoalListFragment.OnFragmentInteractionListener {
+    private lateinit var homeFragment: HomeFragment
+    private lateinit var goalListFragment: GoalListFragment
+    private lateinit var expencesCategoriesFragment: CategoryListFragment
+    private lateinit var incomesCategoriesFragment: CategoryListFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +34,11 @@ class MainActivity : AppCompatActivity(),
         setSupportActionBar(toolbar)
 
         val toggle = ActionBarDrawerToggle(
-            this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
+            this,
+            drawer_layout,
+            toolbar,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
         )
 
         drawer_layout.addDrawerListener(toggle)
@@ -69,7 +70,7 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
+        return when (item.itemId) {
             R.id.action_logout -> {
                 SharedPrefManager.getInstance(applicationContext).clear()
 
@@ -77,9 +78,9 @@ class MainActivity : AppCompatActivity(),
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
 
                 startActivity(intent)
-                return true
+                true
             }
-            else -> return super.onOptionsItemSelected(item)
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
@@ -110,7 +111,7 @@ class MainActivity : AppCompatActivity(),
 
     override fun onFragmentInteraction(uri: Uri) {}
 
-    fun switchFragment(fragment: Fragment){
+    fun switchFragment(fragment: Fragment) {
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.container, fragment)

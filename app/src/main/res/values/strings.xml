@@ -18,4 +18,9 @@
     <string name="successful_register_process">Rejestracja przebiegła pomyślnie</string>
     <string name="dont_have_account">Nie masz konta? Zarejestruj się!</string>
     <string name="copied_to_clipboard">Skopiowano do schowka</string>
+    <string-array name="currency_array">
+        <item>EUR</item>
+        <item>USD</item>
+        <item>PLN</item>
+    </string-array>
 </resources>

@@ -52,6 +52,9 @@ class HomeFragment : Fragment() {
             (activity as MainActivity).switchFragment(CategoryListFragment.newInstance(1))
         }
 
+        view.homeGoalsCard.setOnClickListener {
+            (activity as MainActivity).switchFragment(GoalListFragment.newInstance())
+        }
 
         getExpenses();
         getIncomes();
@@ -83,9 +86,9 @@ class HomeFragment : Fragment() {
                                 expenses_pln += expense.amount
                             }
                         }
-                        view?.expenses_eur_value?.text = expenses_eur.toString()
-                        view?.expenses_usd_value?.text = expenses_usd.toString()
-                        view?.expenses_pln_value?.text = expenses_pln.toString()
+                        view?.expenses_eur_value?.text = expenses_eur.toFloat().toString()
+                        view?.expenses_usd_value?.text = expenses_usd.toFloat().toString()
+                        view?.expenses_pln_value?.text = expenses_pln.toFloat().toString()
                     }
                 }
             })
