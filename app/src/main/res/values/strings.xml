@@ -18,6 +18,32 @@
     <string name="successful_register_process">Rejestracja przebiegła pomyślnie</string>
     <string name="dont_have_account">Nie masz konta? Zarejestruj się!</string>
     <string name="copied_to_clipboard">Skopiowano do schowka</string>
+    <string name="new_category">Nowa kategoria</string>
+    <string name="category_added">Nowa kategoria dodana</string>
+    <string name="new_expense">Nowy wydatek</string>
+    <string name="edit_expense">Edytuj wydatek</string>
+    <string name="expense_added">Nowy wydatek dodano</string>
+    <string name="expense_updated">Wydatek został zaktualizowany</string>
+    <string name="expense_deleted">Wydatek został skasowany</string>
+    <string name="new_goal">Nowy cel</string>
+    <string name="edit_goal">Edytuj cel</string>
+    <string name="add_to_goal">Wpłać na cel</string>
+    <string name="remove_from_goal">Wypłać</string>
+    <string name="goal_updated">Cel został zaktualizowany</string>
+    <string name="added_to_goal">Wpłacono na cel</string>
+    <string name="removed_from_goal">Wypłacono</string>
+    <string name="goal_added">Nowy cel został dodany</string>
+    <string name="goal_deleted">Cel został skasowany</string>
+    <string name="add_new_income">Nowy przychód</string>
+    <string name="edit_income">Edytuj przychód</string>
+    <string name="income_added">Nowy przychód został dodany</string>
+    <string name="income_updated">Przychód został zaktualizowany</string>
+    <string name="income_deleted">Przychód został skasowany</string>
+    <string name="home">Strona główna</string>
+    <string name="expenses">Wydatki</string>
+    <string name="incomes">Przychody</string>
+    <string name="goals">Cele</string>
+
     <string-array name="currency_array">
         <item>EUR</item>
         <item>USD</item>

@@ -1,18 +1,18 @@
 package com.budget.tracker
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
+import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
-import com.budget.tracker.api.RetrofitClient
 import com.budget.tracker.api.LoginResponse
+import com.budget.tracker.api.RetrofitClient
+import com.budget.tracker.requests.LoginRequest
 import com.budget.tracker.storage.SharedPrefManager
 import kotlinx.android.synthetic.main.activity_login.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import android.support.v4.content.ContextCompat
-import com.budget.tracker.requests.LoginRequest
 
 
 class LoginActivity : AppCompatActivity() {
@@ -20,14 +20,14 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        getWindow().setStatusBarColor(ContextCompat.getColor(this,R.color.theme_light))
+        window.statusBarColor = ContextCompat.getColor(this, R.color.theme_light)
         connectListeners()
     }
 
     override fun onStart() {
         super.onStart()
 
-         if(SharedPrefManager.getInstance(this).isLoggedIn){
+        if (SharedPrefManager.getInstance(this).isLoggedIn) {
             val intent = Intent(applicationContext, MainActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
 
@@ -37,7 +37,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun connectListeners() {
 
-        textViewRegister.setOnClickListener{
+        textViewRegister.setOnClickListener {
             val intent = Intent(applicationContext, RegisterActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_NO_HISTORY
 
@@ -49,7 +49,7 @@ class LoginActivity : AppCompatActivity() {
             val email = editTextEmail.text.toString().trim()
             val password = editTextPassword.text.toString().trim()
 
-            if(!validateFields(email, password)) {
+            if (!validateFields(email, password)) {
                 return@setOnClickListener
             }
 
@@ -59,20 +59,26 @@ class LoginActivity : AppCompatActivity() {
                         Toast.makeText(applicationContext, t.message, Toast.LENGTH_LONG).show()
                     }
 
-                    override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+                    override fun onResponse(
+                        call: Call<LoginResponse>,
+                        response: Response<LoginResponse>
+                    ) {
                         if (response.code() == 200) {
-                            SharedPrefManager.getInstance(applicationContext).saveToken(response.body()?.payload?.accessToken!!)
+                            SharedPrefManager.getInstance(applicationContext)
+                                .saveToken(response.body()?.payload?.accessToken!!)
 
                             val intent = Intent(applicationContext, MainActivity::class.java)
-                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            intent.flags =
+                                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
 
                             startActivity(intent)
-
-
                         } else {
-                            Toast.makeText(applicationContext, getString(R.string.invalid_credentials), Toast.LENGTH_LONG).show()
+                            Toast.makeText(
+                                applicationContext,
+                                getString(R.string.invalid_credentials),
+                                Toast.LENGTH_LONG
+                            ).show()
                         }
-
                     }
                 })
         }

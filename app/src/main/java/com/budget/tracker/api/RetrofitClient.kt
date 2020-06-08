@@ -23,7 +23,7 @@ class RetrofitClient constructor(context: Context) {
             chain.proceed(request)
         }.build()
 
-    val instance: Api by lazy{
+    val instance: Api by lazy {
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())

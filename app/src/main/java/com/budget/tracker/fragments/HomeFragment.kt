@@ -1,5 +1,6 @@
 package com.budget.tracker.fragments
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
@@ -28,12 +29,12 @@ import java.util.*
 class HomeFragment : Fragment() {
     private var listener: OnFragmentInteractionListener? = null
     private lateinit var baseContext: Context
-    private var incomes_eur: Double = 0.0
-    private var incomes_usd: Double = 0.0
-    private var incomes_pln: Double = 0.0
-    private var expenses_eur: Double = 0.0
-    private var expenses_usd: Double = 0.0
-    private var expenses_pln: Double = 0.0
+    private var incomesEur: Float = 0.0F
+    private var incomesUsd: Float = 0.0F
+    private var incomesPln: Float = 0.0F
+    private var expensesEur: Float = 0.0F
+    private var expensesUsd: Float = 0.0F
+    private var expensesPln: Float = 0.0F
 
 
     override fun onCreateView(
@@ -56,12 +57,13 @@ class HomeFragment : Fragment() {
             (activity as MainActivity).switchFragment(GoalListFragment.newInstance())
         }
 
-        getExpenses();
-        getIncomes();
+        getExpenses()
+        getIncomes()
 
         return view
     }
 
+    @SuppressLint("SimpleDateFormat")
     private fun getExpenses() {
 
         val dateFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd")
@@ -71,54 +73,66 @@ class HomeFragment : Fragment() {
                     Toast.makeText(baseContext, t.message, Toast.LENGTH_LONG).show()
                 }
 
-                override fun onResponse(call: Call<ExpensesResponse>, response: Response<ExpensesResponse>) {
+                override fun onResponse(
+                    call: Call<ExpensesResponse>,
+                    response: Response<ExpensesResponse>
+                ) {
                     if (response.code() == 200) {
                         val expensesCollection: Array<Expense> = response.body()!!.payload
 
                         for (expense: Expense in expensesCollection) {
-                            if (expense.currency.shortName.equals("EUR", true)) {
-                                expenses_eur += expense.amount
-
-                            }else if(expense.currency.shortName.equals("USD", true))
-                            {
-                                expenses_usd += expense.amount
-                            }else{
-                                expenses_pln += expense.amount
+                            when {
+                                expense.currency.shortName.equals("EUR", true) -> {
+                                    expensesEur += expense.amount
+                                }
+                                expense.currency.shortName.equals("USD", true) -> {
+                                    expensesUsd += expense.amount
+                                }
+                                else -> {
+                                    expensesPln += expense.amount
+                                }
                             }
                         }
-                        view?.expenses_eur_value?.text = expenses_eur.toFloat().toString()
-                        view?.expenses_usd_value?.text = expenses_usd.toFloat().toString()
-                        view?.expenses_pln_value?.text = expenses_pln.toFloat().toString()
+                        view?.expenses_eur_value?.text = expensesEur.toString()
+                        view?.expenses_usd_value?.text = expensesUsd.toString()
+                        view?.expenses_pln_value?.text = expensesPln.toString()
                     }
                 }
             })
     }
 
-  private  fun getIncomes() {
-      val dateFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd")
+    @SuppressLint("SimpleDateFormat")
+    private fun getIncomes() {
+        val dateFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd")
         RetrofitClient(baseContext).instance.getIncomes(dateFormat.format(Date()))
             .enqueue(object : Callback<IncomesResponse> {
                 override fun onFailure(call: Call<IncomesResponse>, t: Throwable) {
                     Toast.makeText(baseContext, t.message, Toast.LENGTH_LONG).show()
                 }
 
-                override fun onResponse(call: Call<IncomesResponse>, response: Response<IncomesResponse>) {
+                override fun onResponse(
+                    call: Call<IncomesResponse>,
+                    response: Response<IncomesResponse>
+                ) {
                     if (response.code() == 200) {
                         val incomesCollection: Array<Income> = response.body()!!.payload
 
                         for (income: Income in incomesCollection) {
-                            if (income.currency.shortName.equals("EUR", true)) {
-                                incomes_eur += income.amount
-                            }else if(income.currency.shortName.equals("USD", true))
-                            {
-                                incomes_usd += income.amount
-                            }else{
-                                incomes_pln += income.amount
+                            when {
+                                income.currency.shortName.equals("EUR", true) -> {
+                                    incomesEur += income.amount
+                                }
+                                income.currency.shortName.equals("USD", true) -> {
+                                    incomesUsd += income.amount
+                                }
+                                else -> {
+                                    incomesPln += income.amount
+                                }
                             }
                         }
-                        view?.incomes_eur_value?.text = incomes_eur.toString()
-                        view?.incomes_usd_value?.text = incomes_usd.toString()
-                        view?.incomes_pln_value?.text = incomes_pln.toString()
+                        view?.incomes_eur_value?.text = incomesEur.toString()
+                        view?.incomes_usd_value?.text = incomesUsd.toString()
+                        view?.incomes_pln_value?.text = incomesPln.toString()
                     }
                 }
             })
@@ -130,7 +144,7 @@ class HomeFragment : Fragment() {
         if (context is OnFragmentInteractionListener) {
             listener = context
         } else {
-            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
+            throw RuntimeException("$context must implement OnFragmentInteractionListener")
         }
     }
 

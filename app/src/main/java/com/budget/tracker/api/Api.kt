@@ -1,7 +1,6 @@
 package com.budget.tracker.api
 
 import com.budget.tracker.requests.*
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -10,85 +9,84 @@ interface Api {
 
     @POST("/api/Authentication/Login")
     fun userLogin(
-        @Body loginRequest : LoginRequest
-    ):Call<LoginResponse>
+        @Body loginRequest: LoginRequest
+    ): Call<LoginResponse>
 
     @POST("/api/Authentication/Register")
     fun userRegister(
-        @Body user : RegisterUserRequest
-    ):Call<RegisterResponse>
+        @Body user: RegisterUserRequest
+    ): Call<RegisterResponse>
 
     @POST("/api/Category/Add")
     fun addCategory(
-        @Body addCategoryRequest : AddCategoryRequest
-    ):Call<CommonResponse>
+        @Body addCategoryRequest: AddCategoryRequest
+    ): Call<CommonResponse>
 
     @POST("/api/Expenses/Add")
     fun addNewExpense(
-        @Body addExpenseRequest : AddExpenseRequest
-    ):Call<CommonResponse>
+        @Body addExpenseRequest: AddExpenseRequest
+    ): Call<CommonResponse>
 
     @POST("/api/Goal/Add")
     fun addNewGoal(
-        @Body addGoalRequest : AddGoalRequest
-    ):Call<CommonResponse>
+        @Body addGoalRequest: AddGoalRequest
+    ): Call<CommonResponse>
 
     @PUT("/api/Expenses/Edit")
     fun editExpense(
-        @Body editExpenseRequest : EditExpenseRequest
-    ):Call<CommonResponse>
+        @Body editExpenseRequest: EditExpenseRequest
+    ): Call<CommonResponse>
 
     @PUT("/api/Income/Edit")
     fun editIncome(
-        @Body editIncomeRequest : EditIncomeRequest
-    ):Call<CommonResponse>
+        @Body editIncomeRequest: EditIncomeRequest
+    ): Call<CommonResponse>
 
     @PUT("/api/Goal/Edit")
     fun editGoal(
-        @Body editGoalRequest : EditGoalRequest
-    ):Call<CommonResponse>
+        @Body editGoalRequest: EditGoalRequest
+    ): Call<CommonResponse>
 
     @PUT("/api/Goal/AddAmount")
     fun addToGoal(
-        @Body addToGoalRequest : AddToGoalRequest
-    ):Call<CommonResponse>
+        @Body addToGoalRequest: AddToGoalRequest
+    ): Call<CommonResponse>
 
     @HTTP(method = "DELETE", path = "/api/Goal/DeleteAmount", hasBody = true)
-    fun removeFromGoal
-         (@Body deleteFromGoalRequest: RemoveFromGoalRequest): Call<CommonResponse>
+    fun removeFromGoal(@Body deleteFromGoalRequest: RemoveFromGoalRequest): Call<CommonResponse>
 
     @HTTP(method = "DELETE", path = "/api/Expenses/Delete", hasBody = true)
-    fun removeExpense
-        (@Body deleteExpenseRequest: DeleteExpenseRequest): Call<CommonResponse>
+    fun removeExpense(@Body deleteExpenseRequest: DeleteExpenseRequest): Call<CommonResponse>
 
     @HTTP(method = "DELETE", path = "/api/Goal/Delete", hasBody = true)
-    fun removeGoal
-                (@Body deleteGoalRequest: DeleteGoalRequest): Call<CommonResponse>
+    fun removeGoal(@Body deleteGoalRequest: DeleteGoalRequest): Call<CommonResponse>
 
     @POST("/api/Income/Add")
     fun addNewIncome(
-        @Body addIncomesRequest : AddIncomeRequest
-    ):Call<CommonResponse>
+        @Body addIncomesRequest: AddIncomeRequest
+    ): Call<CommonResponse>
 
     @DELETE("/api/Income/Delete/{incomeId}")
     fun removeIncome(
         @Path(value = "incomeId", encoded = true) incomeId: String?
-    ):Call<CommonResponse>
+    ): Call<CommonResponse>
 
     @GET("/api/Category/GetAll")
     fun getCategories(
-        @Query("type") categoryTypeId: Int?):Call<CategoryResponse>
+        @Query("type") categoryTypeId: Int?
+    ): Call<CategoryResponse>
 
     @GET("/api/Expenses/GetAll")
     fun getExpenses(
         @Query("date") date: String
-    ):Call<ExpensesResponse>
+    ): Call<ExpensesResponse>
 
     @GET("/api/Income/GetAll")
     fun getIncomes(
-        @Query("date") date: String):Call<IncomesResponse>
+        @Query("date") date: String
+    ): Call<IncomesResponse>
 
     @GET("/api/Goal/GetAll")
-    fun getGoals():Call<GoalsResponse>
+    fun getGoals(): Call<GoalsResponse>
 
 }

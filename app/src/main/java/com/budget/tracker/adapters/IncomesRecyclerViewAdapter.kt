@@ -10,11 +10,15 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import com.budget.tracker.R
-import com.budget.tracker.models.Expense
 import com.budget.tracker.models.Income
 import java.util.*
 
-class IncomesRecyclerViewAdapter(private var context: Context, private var dataList: ArrayList<Income>, private val onClickListener: (Income) -> Unit, private val onEditListener: (Int) -> Unit): RecyclerView.Adapter<IncomesRecyclerViewAdapter.ViewHolder>() {
+class IncomesRecyclerViewAdapter(
+    private var context: Context,
+    private var dataList: ArrayList<Income>,
+    private val onClickListener: (Income) -> Unit,
+    private val onEditListener: (Int) -> Unit
+) : RecyclerView.Adapter<IncomesRecyclerViewAdapter.ViewHolder>() {
     override fun getItemCount(): Int {
         return dataList.size
     }
@@ -34,12 +38,12 @@ class IncomesRecyclerViewAdapter(private var context: Context, private var dataL
 
         holder.incomeValue.text = dataList[position].amount.toString()
         holder.currency.text = dataList[position].currency.shortName
-        holder.date.text = dataList[position].timeStamp.substring(0,10)
+        holder.date.text = dataList[position].timeStamp.substring(0, 10)
 
-        holder.removeIncome.setOnClickListener { view ->
+        holder.removeIncome.setOnClickListener {
             onClickListener.invoke(dataList[position])
         }
-        holder.editIncome.setOnClickListener{ view ->
+        holder.editIncome.setOnClickListener {
             onEditListener.invoke(dataList[position].id)
         }
     }

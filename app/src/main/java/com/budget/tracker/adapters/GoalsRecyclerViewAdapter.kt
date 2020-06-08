@@ -11,15 +11,16 @@ import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import com.budget.tracker.R
-import com.budget.tracker.models.Expense
 import com.budget.tracker.models.Goal
 import java.util.*
 
-class GoalsRecyclerViewAdapter(private var context: Context, private var dataList: ArrayList<Goal>,
-                               private val onRemoveListener: (Int) -> Unit,
-                               private val onAddToGoalListener: (Int) -> Unit,
-                               private val onRemoveFromGoalListener: (Int) -> Unit,
-                               private val onEditListener: (Goal) -> Unit): RecyclerView.Adapter<GoalsRecyclerViewAdapter.ViewHolder>() {
+class GoalsRecyclerViewAdapter(
+    private var context: Context, private var dataList: ArrayList<Goal>,
+    private val onRemoveListener: (Int) -> Unit,
+    private val onAddToGoalListener: (Int) -> Unit,
+    private val onRemoveFromGoalListener: (Int) -> Unit,
+    private val onEditListener: (Goal) -> Unit
+) : RecyclerView.Adapter<GoalsRecyclerViewAdapter.ViewHolder>() {
     override fun getItemCount(): Int {
         return dataList.size
     }
@@ -41,18 +42,19 @@ class GoalsRecyclerViewAdapter(private var context: Context, private var dataLis
         holder.amount.text = dataList[position].amount.toString()
         holder.totalAmount.text = dataList[position].goalAmount.toString()
         holder.currency.text = dataList[position].currency.shortName
-        holder.progress!!.progress = ((dataList[position].amount * 100)/dataList[position].goalAmount).toInt()
+        holder.progress.progress =
+            ((dataList[position].amount * 100) / dataList[position].goalAmount).toInt()
 
-        holder.removeGoal.setOnClickListener { view ->
+        holder.removeGoal.setOnClickListener {
             onRemoveListener.invoke(dataList[position].id)
         }
-        holder.addToGoal.setOnClickListener { view ->
+        holder.addToGoal.setOnClickListener {
             onAddToGoalListener.invoke(dataList[position].id)
         }
-        holder.removeFromGoal.setOnClickListener { view ->
+        holder.removeFromGoal.setOnClickListener {
             onRemoveFromGoalListener.invoke(dataList[position].id)
         }
-        holder.editGoal.setOnClickListener { view ->
+        holder.editGoal.setOnClickListener {
             onEditListener.invoke(dataList[position])
         }
 

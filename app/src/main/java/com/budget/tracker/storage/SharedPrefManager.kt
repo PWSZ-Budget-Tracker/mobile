@@ -1,19 +1,20 @@
 package com.budget.tracker.storage
 
 import android.content.Context
-import com.google.gson.Gson
 
-class SharedPrefManager private constructor(private val mCtx: Context){
+class SharedPrefManager private constructor(private val mCtx: Context) {
 
     val isLoggedIn: Boolean
         get() {
-            val sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE)
+            val sharedPreferences =
+                mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE)
             return sharedPreferences.getString("token", null) != null
         }
 
     val token: String?
         get() {
-            val sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE)
+            val sharedPreferences =
+                mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE)
             return sharedPreferences.getString("token", null)
         }
 
@@ -35,7 +36,7 @@ class SharedPrefManager private constructor(private val mCtx: Context){
     }
 
     companion object {
-        private val SHARED_PREF_NAME = "budget-tracker_pref"
+        private const val SHARED_PREF_NAME = "budget-tracker_pref"
         private var mInstance: SharedPrefManager? = null
         @Synchronized
         fun getInstance(mCtx: Context): SharedPrefManager {

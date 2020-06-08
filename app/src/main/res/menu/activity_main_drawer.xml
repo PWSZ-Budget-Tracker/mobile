@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:tools="http://schemas.android.com/tools"
-      tools:showIn="navigation_view">
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
         <item
                 android:id="@+id/sidebar_home"
                 android:icon="@drawable/ic_home"
-                android:title="Home"/>
+                android:title="@string/home" />
         <item
                 android:id="@+id/sidebar_expenses"
                 android:icon="@drawable/ic_payment"
-                android:title="Wydatki" />
+                android:title="@string/expenses" />
         <item
-            android:id="@+id/sidebar_incomes"
-            android:icon="@drawable/ic_payment"
-            android:title="Przychody" />
+                android:id="@+id/sidebar_incomes"
+                android:icon="@drawable/baseline_attach_money_24"
+                android:title="@string/incomes" />
 
         <item
                 android:id="@+id/sidebar_goals"
-                android:icon="@drawable/ic_payment"
-                android:title="Cele" />
+                android:icon="@drawable/baseline_gps_fixed_24"
+                android:title="@string/goals" />
     </group>
 
 </menu>

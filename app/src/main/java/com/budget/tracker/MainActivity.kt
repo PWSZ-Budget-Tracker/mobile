@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity(),
     GoalListFragment.OnFragmentInteractionListener {
     private lateinit var homeFragment: HomeFragment
     private lateinit var goalListFragment: GoalListFragment
-    private lateinit var expencesCategoriesFragment: CategoryListFragment
+    private lateinit var expensesCategoriesFragment: CategoryListFragment
     private lateinit var incomesCategoriesFragment: CategoryListFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -91,8 +91,8 @@ class MainActivity : AppCompatActivity(),
                 switchFragment(homeFragment)
             }
             R.id.sidebar_expenses -> {
-                expencesCategoriesFragment = CategoryListFragment.newInstance(0)
-                switchFragment(expencesCategoriesFragment)
+                expensesCategoriesFragment = CategoryListFragment.newInstance(0)
+                switchFragment(expensesCategoriesFragment)
             }
             R.id.sidebar_incomes -> {
                 incomesCategoriesFragment = CategoryListFragment.newInstance(1)
