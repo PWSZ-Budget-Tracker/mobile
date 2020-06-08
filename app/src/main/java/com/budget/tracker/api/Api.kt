@@ -61,14 +61,12 @@ interface Api {
     @HTTP(method = "DELETE", path = "/api/Goal/Delete", hasBody = true)
     fun removeGoal(@Body deleteGoalRequest: DeleteGoalRequest): Call<CommonResponse>
 
+    @HTTP(method = "DELETE", path = "/api/Income/Delete", hasBody = true)
+    fun removeIncome(@Body deleteIncomeRequest: DeleteIncomeRequest): Call<CommonResponse>
+
     @POST("/api/Income/Add")
     fun addNewIncome(
         @Body addIncomesRequest: AddIncomeRequest
-    ): Call<CommonResponse>
-
-    @DELETE("/api/Income/Delete/{incomeId}")
-    fun removeIncome(
-        @Path(value = "incomeId", encoded = true) incomeId: String?
     ): Call<CommonResponse>
 
     @GET("/api/Category/GetAll")

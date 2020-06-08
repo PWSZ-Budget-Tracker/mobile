@@ -19,6 +19,7 @@ import com.budget.tracker.api.IncomesResponse
 import com.budget.tracker.api.RetrofitClient
 import com.budget.tracker.models.Income
 import com.budget.tracker.requests.AddIncomeRequest
+import com.budget.tracker.requests.DeleteIncomeRequest
 import com.budget.tracker.requests.EditIncomeRequest
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.edit_income_dialog.view.*
@@ -220,7 +221,7 @@ class IncomesFragment : Fragment() {
     }
 
     private fun removeIncome(income: Income) {
-        RetrofitClient(baseContext).instance.removeIncome(income.id.toString())
+        RetrofitClient(baseContext).instance.removeIncome(DeleteIncomeRequest(income.id))
             .enqueue(object : Callback<CommonResponse> {
                 override fun onFailure(call: Call<CommonResponse>, t: Throwable) {
                     Toast.makeText(baseContext, t.message, Toast.LENGTH_LONG).show()
