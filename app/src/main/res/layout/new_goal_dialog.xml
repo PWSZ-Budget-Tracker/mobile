@@ -7,34 +7,35 @@
         android:padding="10dp">
 
     <EditText
-            android:id="@+id/IncomeValue"
+            android:id="@+id/goalDialogName"
+            android:hint="Nazwa celu"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Nowa kwota"
-            android:inputType="text" />
-
+            android:layout_height="wrap_content" android:inputType="text"/>
     <EditText
-            android:id="@+id/IncomeCurrency"
+            android:id="@+id/goalDialog"
+            android:hint="Cel"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Waluta np. EUR / USD / PLN"
-            android:inputType="text" />
-
+            android:layout_height="wrap_content" android:inputType="text"/>
+    <EditText
+            android:id="@+id/goalDialogCurrency"
+            android:hint="Np. EUR"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:inputType="text"/>
 
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center">
-
         <Button
-                android:id="@+id/dialogIncomeAddButton"
+                android:id="@+id/dialogAddGoal"
+                android:text="Dodaj"
                 style="@android:style/Widget.Material.Light.Button"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Edytuj" />
+                android:layout_height="wrap_content" android:backgroundTint="@color/theme_green"
+                android:textColor="@color/theme_light"/>
         <Button
-                android:id="@+id/dialogIncomeCancelButton"
+                android:id="@+id/dialogCancelButton"
                 android:text="Anuluj"
                 style="@android:style/Widget.Material.Light.Button"
                 android:layout_width="wrap_content"

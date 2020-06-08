@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp" android:id="@+id/materialCardView">
+
+    <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:weightSum="10">
+
+        <TextView
+                android:id="@+id/goal_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="29dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="35dp"
+                android:layout_marginBottom="10dp"
+                android:text="20"
+                android:textAlignment="center"
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/goal_progress"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/goal_name" />
+
+        <TextView
+                android:id="@+id/goal_currency"
+                android:layout_width="wrap_content"
+                android:layout_height="29dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="EUR"
+                android:textAlignment="center"
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/goal_progress"
+                app:layout_constraintStart_toEndOf="@+id/total_goal_amount" />
+
+        <Button
+                android:id="@+id/remove_goal"
+                style="@android:style/Widget.Material.Light.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="4dp"
+                android:backgroundTint="@color/theme_green"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="Usuń"
+                android:textColor="@color/theme_light"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+                android:id="@+id/edit_goal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="92dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="5dp"
+                android:text="Edytuj"
+                app:layout_constraintEnd_toStartOf="@+id/remove_goal"
+                app:layout_constraintStart_toEndOf="@+id/goal_name"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+                android:id="@+id/add_to_goal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="36dp"
+                android:layout_marginTop="5dp"
+                android:text="Dodaj do celu"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/goal_progress" />
+
+        <Button
+                android:id="@+id/remove_from_goal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="5dp"
+                android:backgroundTint="@color/theme_green"
+                android:text="Odejmij od celu"
+                android:textColor="@color/theme_light"
+                app:layout_constraintStart_toEndOf="@+id/add_to_goal"
+                app:layout_constraintTop_toBottomOf="@+id/goal_progress" />
+
+        <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="34dp"
+                android:layout_marginBottom="8dp"
+                android:text="/"
+                android:textAlignment="center"
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/goal_progress"
+                app:layout_constraintStart_toEndOf="@+id/goal_amount"
+                app:layout_constraintTop_toBottomOf="@+id/goal_name" />
+
+        <TextView
+                android:id="@+id/total_goal_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="35dp"
+                android:layout_marginBottom="8dp"
+                android:text="100"
+                android:textAlignment="center"
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/goal_progress"
+                app:layout_constraintStart_toEndOf="@+id/textView"
+                app:layout_constraintTop_toBottomOf="@+id/goal_name" />
+
+        <TextView
+                android:id="@+id/goal_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:text="Wakacje"
+                android:textAlignment="center"
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <ProgressBar
+                android:id="@+id/goal_progress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="369dp"
+                android:layout_height="14dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:progress="0"
+                android:layout_marginBottom="5dp"
+                app:layout_constraintBottom_toTopOf="@+id/add_to_goal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+
+
+</android.support.design.card.MaterialCardView>

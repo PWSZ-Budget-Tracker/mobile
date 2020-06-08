@@ -12,135 +12,136 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.budget.tracker.R
-import com.budget.tracker.adapters.IncomesRecyclerViewAdapter
+import com.budget.tracker.adapters.ExpensesRecyclerViewAdapter
+import com.budget.tracker.adapters.GoalsRecyclerViewAdapter
 import com.budget.tracker.api.CommonResponse
-import com.budget.tracker.api.IncomesResponse
+import com.budget.tracker.api.ExpensesResponse
+import com.budget.tracker.api.GoalsResponse
 import com.budget.tracker.api.RetrofitClient
-import com.budget.tracker.models.Income
-import com.budget.tracker.requests.AddIncomeRequest
+import com.budget.tracker.models.Expense
+import com.budget.tracker.models.Goal
+import com.budget.tracker.requests.*
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.expense_item.view.*
 import kotlinx.android.synthetic.main.fragment_expences.view.*
+import kotlinx.android.synthetic.main.goal_item.view.*
 import kotlinx.android.synthetic.main.new_expense_dialog.view.*
-import kotlinx.android.synthetic.main.new_income_dialog.view.*
+import kotlinx.android.synthetic.main.new_goal_dialog.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.text.DateFormat
 import java.text.SimpleDateFormat
+import java.time.DateTimeException
+import java.time.LocalDate
 import java.util.*
 import kotlin.collections.ArrayList
 
-private const val CATEGORY_NAME = "CATEGORY_NAME"
-private const val CATEGORY_ID = "CATEGORY_ID"
-
-class IncomesFragment : Fragment() {
+class GoalListFragment : Fragment() {
     private var listener: OnFragmentInteractionListener? = null
-    private var categoryName: String? = null
-    private var categoryId: Int? = null
-    private var dataList: ArrayList<Income> = ArrayList()
+    private var goalList: ArrayList<Goal> = ArrayList()
     private lateinit var baseContext: Context
-    private lateinit var adapterIncomes: IncomesRecyclerViewAdapter
+    private lateinit var adapterGoals: GoalsRecyclerViewAdapter
     private lateinit var recyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            categoryName = it.getString(CATEGORY_NAME)
-            categoryId = it.getInt(CATEGORY_ID)
-        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view: View = inflater.inflate(R.layout.fragment_incomes, container, false)
+        val view: View = inflater.inflate(R.layout.fragment_goal_list, container, false)
 
-        activity!!.nav_view.setCheckedItem(R.id.sidebar_incomes)
+        activity!!.nav_view.setCheckedItem(R.id.sidebar_goals)
 
         view.fab.setOnClickListener { view ->
             showDialog()
         }
 
-        recyclerView = view.findViewById(R.id.recycler_view_incomes)
-        adapterIncomes = IncomesRecyclerViewAdapter(
+        recyclerView = view.findViewById(R.id.recycler_view_goals)
+        adapterGoals = GoalsRecyclerViewAdapter(
             baseContext,
-            dataList,
-            onClickListener = { income -> removeIncome(income) })
+            goalList,
+            onClickListener = { goal -> removeGoal(goal) })
         recyclerView.layoutManager = LinearLayoutManager(baseContext, LinearLayoutManager.VERTICAL,false)
-        recyclerView.adapter = adapterIncomes
+        recyclerView.adapter = adapterGoals
 
-        getIncomes()
+        getGoals()
 
         return view
     }
 
-    fun getIncomes() {
-        dataList.clear()
+    fun getGoals() {
+        goalList.clear()
 
-        val dateFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd")
-        RetrofitClient(baseContext).instance.getIncomes(dateFormat.format(Date()))
-            .enqueue(object : Callback<IncomesResponse> {
-                override fun onFailure(call: Call<IncomesResponse>, t: Throwable) {
+        RetrofitClient(baseContext).instance.getGoals()
+            .enqueue(object : Callback<GoalsResponse> {
+                override fun onFailure(call: Call<GoalsResponse>, t: Throwable) {
                     Toast.makeText(baseContext, t.message, Toast.LENGTH_LONG).show()
                 }
 
-                override fun onResponse(call: Call<IncomesResponse>, response: Response<IncomesResponse>) {
+                override fun onResponse(call: Call<GoalsResponse>, response: Response<GoalsResponse>) {
                     if (response.code() == 200) {
-                        val incomesCollection: Array<Income> = response.body()!!.payload
+                        val goalsCollection: Array<Goal> = response.body()!!.payload
 
-                        for (income: Income in incomesCollection) {
-                            if (income.categoryName.equals(categoryName, true)) {
-                                dataList.add(income)
-                            }
+                        for (goal: Goal in goalsCollection) {
+                                goalList.add(goal)
                         }
                     }
-                    adapterIncomes.notifyDataSetChanged()
+                    adapterGoals.notifyDataSetChanged()
                 }
             })
     }
 
     fun showDialog() {
-        val newIncomeDialogView = LayoutInflater.from(baseContext).inflate(R.layout.new_income_dialog, null)
+        val newGoalDialogView = LayoutInflater.from(baseContext).inflate(R.layout.new_goal_dialog, null)
 
         val mBuilder = AlertDialog.Builder(baseContext)
-            .setView(newIncomeDialogView)
-            .setTitle("Nowy przychód")
+            .setView(newGoalDialogView)
+            .setTitle("Nowy cel")
 
         val  mAlertDialog = mBuilder.show()
 
-        newIncomeDialogView.dialogIncomeAddButton.setOnClickListener {
+        newGoalDialogView.dialogAddGoal.setOnClickListener {
 
-            val incomeValue = newIncomeDialogView.IncomeValue.text.toString()
-            val incomeCurrency = newIncomeDialogView.IncomeCurrency.text.toString()
+            val goalValue = newGoalDialogView.goalDialog.text.toString()
+            val goalName = newGoalDialogView.goalDialogName.text.toString()
+            val goalCurrency = newGoalDialogView.goalDialogCurrency.text.toString()
 
-            if (incomeValue.isEmpty()) {
-                newIncomeDialogView.IncomeValue.requestFocus()
+            if (goalName.isEmpty()) {
+                newGoalDialogView.goal_name.requestFocus()
                 return@setOnClickListener
             }
 
-            if (incomeCurrency.isEmpty()) {
-                newIncomeDialogView.IncomeCurrency.requestFocus()
+            if (goalValue.isEmpty()) {
+                newGoalDialogView.goal_amount.requestFocus()
+                return@setOnClickListener
+            }
+
+            if (goalCurrency.isEmpty()) {
+                newGoalDialogView.goal_currency.requestFocus()
                 return@setOnClickListener
             }
 
             mAlertDialog.dismiss()
-            addNewIncome(incomeValue, incomeCurrency)
+            addNewGoal(goalName, goalValue, goalCurrency)
         }
 
-        newIncomeDialogView.dialogIncomeCancelButton.setOnClickListener {
+        newGoalDialogView.dialogCancelButton.setOnClickListener {
             mAlertDialog.dismiss()
         }
     }
 
-    fun addNewIncome(value: String, currency: String) {
+    fun addNewGoal(name: String, value: String, currency: String) {
         var currencyCode = 1
 
         if(currency.equals("USD", true)) {
             currencyCode = 2
         }
 
-        RetrofitClient(baseContext).instance.addNewIncome(AddIncomeRequest(categoryId!!.toInt(), value.toDouble(), currencyCode))
+        RetrofitClient(baseContext).instance.addNewGoal(AddGoalRequest(name, value.toDouble(), currencyCode))
             .enqueue(object : Callback<CommonResponse> {
                 override fun onFailure(call: Call<CommonResponse>, t: Throwable) {
                     Toast.makeText(baseContext, t.message, Toast.LENGTH_LONG).show()
@@ -148,16 +149,16 @@ class IncomesFragment : Fragment() {
 
                 override fun onResponse(call: Call<CommonResponse>, response: Response<CommonResponse>) {
                     if (response.code() == 200) {
-                        Toast.makeText(baseContext, "Dodano przychód", Toast.LENGTH_LONG).show()
-                        dataList.clear()
-                        getIncomes()
+                        Toast.makeText(baseContext, "Dodano cel", Toast.LENGTH_LONG).show()
+                        goalList.clear()
+                        getGoals()
                     }
                 }
             })
     }
 
-    fun removeIncome(income: Income) {
-        RetrofitClient(baseContext).instance.removeIncome(income.id.toString())
+    fun removeGoal(goal: Goal) {
+        RetrofitClient(baseContext).instance.removeGoal(DeleteGoalRequest( goal.id))
             .enqueue(object : Callback<CommonResponse> {
                 override fun onFailure(call: Call<CommonResponse>, t: Throwable) {
                     Toast.makeText(baseContext, t.message, Toast.LENGTH_LONG).show()
@@ -165,9 +166,9 @@ class IncomesFragment : Fragment() {
 
                 override fun onResponse(call: Call<CommonResponse>, response: Response<CommonResponse>) {
                     if (response.code() == 200) {
-                        Toast.makeText(baseContext, "Usunięto przychód", Toast.LENGTH_LONG).show()
-                        dataList.clear()
-                        getIncomes()
+                        Toast.makeText(baseContext, "Usunięto cel", Toast.LENGTH_LONG).show()
+                        goalList.clear()
+                        getGoals()
                     }
                 }
             })
@@ -195,12 +196,6 @@ class IncomesFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(categoryName: String, categoryId: Int) =
-            IncomesFragment().apply {
-                arguments = Bundle().apply {
-                    putString(CATEGORY_NAME, categoryName)
-                    putInt(CATEGORY_ID, categoryId)
-                }
-            }
+        fun newInstance() = GoalListFragment()
     }
 }

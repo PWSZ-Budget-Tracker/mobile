@@ -21,11 +21,13 @@ class MainActivity : AppCompatActivity(),
     HomeFragment.OnFragmentInteractionListener,
     ExpensesFragment.OnFragmentInteractionListener,
     IncomesFragment.OnFragmentInteractionListener,
-    CategoryListFragment.OnFragmentInteractionListener
+    CategoryListFragment.OnFragmentInteractionListener,
+    GoalListFragment.OnFragmentInteractionListener
 {
     lateinit var homeFragment: HomeFragment
     lateinit var expensesFragment: ExpensesFragment
     lateinit var incomesFragment: IncomesFragment
+    lateinit var goalListFragment: GoalListFragment
     lateinit var expencesCategoriesFragment: CategoryListFragment
     lateinit var incomesCategoriesFragment: CategoryListFragment
 
@@ -95,6 +97,11 @@ class MainActivity : AppCompatActivity(),
                 incomesCategoriesFragment = CategoryListFragment.newInstance(1)
                 switchFragment(incomesCategoriesFragment)
             }
+            R.id.sidebar_goals -> {
+                goalListFragment = GoalListFragment.newInstance()
+                switchFragment(goalListFragment)
+            }
+
         }
 
         drawer_layout.closeDrawer(GravityCompat.START)

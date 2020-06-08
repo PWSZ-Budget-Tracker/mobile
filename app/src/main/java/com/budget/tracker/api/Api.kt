@@ -1,8 +1,10 @@
 package com.budget.tracker.api
 
 import com.budget.tracker.requests.*
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
+
 
 interface Api {
 
@@ -26,10 +28,23 @@ interface Api {
         @Body addExpenseRequest : AddExpenseRequest
     ):Call<CommonResponse>
 
-    @DELETE("/api/Expenses/Delete/{expenseId}")
-    fun removeExpense(
-        @Path(value = "expenseId", encoded = true) expenseId: String?
+    @POST("/api/Goal/Add")
+    fun addNewGoal(
+        @Body addGoalRequest : AddGoalRequest
     ):Call<CommonResponse>
+
+    @PUT("/api/Expenses/Edit")
+    fun editExpense(
+        @Body editExpenseRequest : EditExpenseRequest
+    ):Call<CommonResponse>
+
+    @HTTP(method = "DELETE", path = "/api/Expenses/Delete", hasBody = true)
+    fun removeExpense
+        (@Body deleteExpenseRequest: DeleteExpenseRequest): Call<CommonResponse>
+
+    @HTTP(method = "DELETE", path = "/api/Goal/Delete", hasBody = true)
+    fun removeGoal
+                (@Body deleteGoalRequest: DeleteGoalRequest): Call<CommonResponse>
 
     @POST("/api/Income/Add")
     fun addNewIncome(
@@ -45,10 +60,16 @@ interface Api {
     fun getCategories(
         @Query("type") categoryTypeId: Int?):Call<CategoryResponse>
 
-    @GET("/api/Expenses/GetAll?date=2020-06-03")
-    fun getExpenses():Call<ExpensesResponse>
+    @GET("/api/Expenses/GetAll")
+    fun getExpenses(
+        @Query("date") date: String
+    ):Call<ExpensesResponse>
 
-    @GET("/api/Income/GetAll?date=2020-06-03")
-    fun getIncomes():Call<IncomesResponse>
+    @GET("/api/Income/GetAll")
+    fun getIncomes(
+        @Query("date") date: String):Call<IncomesResponse>
+
+    @GET("/api/Goal/GetAll")
+    fun getGoals():Call<GoalsResponse>
 
 }

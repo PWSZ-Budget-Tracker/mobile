@@ -13,9 +13,14 @@
                 android:icon="@drawable/ic_payment"
                 android:title="Wydatki" />
         <item
-                android:id="@+id/sidebar_incomes"
+            android:id="@+id/sidebar_incomes"
+            android:icon="@drawable/ic_payment"
+            android:title="Przychody" />
+
+        <item
+                android:id="@+id/sidebar_goals"
                 android:icon="@drawable/ic_payment"
-                android:title="Przychody" />
+                android:title="Cele" />
     </group>
 
 </menu>

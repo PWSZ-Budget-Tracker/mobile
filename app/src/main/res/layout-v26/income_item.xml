@@ -54,7 +54,7 @@
                 app:layout_constraintVertical_bias="0.448" />
 
         <Button
-                android:id="@+id/remove_income"
+                android:id="@+id/remove_expense"
                 style="@android:style/Widget.Material.Light.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

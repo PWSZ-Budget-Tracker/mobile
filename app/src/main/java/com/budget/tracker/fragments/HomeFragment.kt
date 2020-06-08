@@ -4,14 +4,11 @@ import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Adapter
 import android.widget.Toast
 import com.budget.tracker.MainActivity
-
 import com.budget.tracker.R
 import com.budget.tracker.api.ExpensesResponse
 import com.budget.tracker.api.IncomesResponse
@@ -23,6 +20,9 @@ import kotlinx.android.synthetic.main.fragment_home.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class HomeFragment : Fragment() {
@@ -60,7 +60,9 @@ class HomeFragment : Fragment() {
     }
 
     private fun getExpenses() {
-        RetrofitClient(baseContext).instance.getExpenses()
+
+        val dateFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd")
+        RetrofitClient(baseContext).instance.getExpenses(dateFormat.format(Date()))
             .enqueue(object : Callback<ExpensesResponse> {
                 override fun onFailure(call: Call<ExpensesResponse>, t: Throwable) {
                     Toast.makeText(baseContext, t.message, Toast.LENGTH_LONG).show()
@@ -90,7 +92,8 @@ class HomeFragment : Fragment() {
     }
 
   private  fun getIncomes() {
-        RetrofitClient(baseContext).instance.getIncomes()
+      val dateFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd")
+        RetrofitClient(baseContext).instance.getIncomes(dateFormat.format(Date()))
             .enqueue(object : Callback<IncomesResponse> {
                 override fun onFailure(call: Call<IncomesResponse>, t: Throwable) {
                     Toast.makeText(baseContext, t.message, Toast.LENGTH_LONG).show()

@@ -256,6 +256,54 @@
 
         </android.support.design.card.MaterialCardView>
 
+        <android.support.design.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_margin="10dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+            <android.support.constraint.ConstraintLayout
+                    android:id="@+id/homeGoalsCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="10dp">
+
+
+                <TextView
+                        android:id="@+id/goal_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:text="Cele"
+                        android:textAlignment="textStart"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:textSize="40sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                <android.support.design.widget.FloatingActionButton
+                        android:id="@+id/goalActionButton"
+                        android:layout_width="55dp"
+                        android:layout_height="58dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginBottom="8dp"
+                        android:clickable="false"
+                        android:src="@drawable/ic_payment"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.505" />
+            </android.support.constraint.ConstraintLayout>
+
+        </android.support.design.card.MaterialCardView>
+
     </LinearLayout>
 
 </ScrollView>
